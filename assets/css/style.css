@@ -1,4 +1,4 @@
-/* ==========================
+ ==========================
    DIRTY DUCK TRAIL
    style.css v1.0
 ========================== */
@@ -1808,6 +1808,32 @@ p.route-ending{
 
     .route-quote p{
         font-size:19px;
+    }
+
+}
+/* ==========================
+   HERO 2026
+========================== */
+
+.hero{
+
+    background:
+    linear-gradient(
+        rgba(10,10,10,.30),
+        rgba(10,10,10,.70)
+    ),
+    url("../img/hero/hero-2026.jpg");
+
+    background-size:cover;
+    background-position:center 45%;
+
+}
+
+@media (max-width:900px){
+
+    .hero{
+        background-attachment:scroll;
+        background-position:center center;
     }
 
 }
