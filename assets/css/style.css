@@ -1664,3 +1664,150 @@ padding-bottom:80px;
     }
 
 }
+/* ==========================
+   ROUTE HERO BACKGROUNDS
+========================== */
+
+.route-7-hero{
+
+    background-image:
+        linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.65)),
+        url("../img/routes/route-7/7km.jpg");
+
+    background-size:cover;
+    background-position:center 40%;
+    background-repeat:no-repeat;
+
+}
+
+.route-14-hero{
+
+    background-image:
+        linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.65)),
+        url("../img/routes/route-14/14km.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+}
+
+.route-21-hero{
+
+    background-image:
+        linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.65)),
+        url("../img/routes/route-21/21km.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+}
+
+/* ==========================
+   ROUTE MAP ACTIONS
+========================== */
+
+.route-map-actions{
+
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:18px;
+    margin-top:30px;
+
+}
+
+@media (max-width:600px){
+
+    .route-map-actions{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .route-map-actions .button{
+        width:100%;
+    }
+
+}
+
+/* ==========================
+   ROUTE TEXT ACCENTS
+========================== */
+
+p.route-highlight{
+
+    max-width:760px;
+    margin:45px auto;
+    padding:28px 32px;
+    background:rgba(217,164,65,.08);
+    border-left:4px solid var(--accent);
+    border-radius:14px;
+    font-size:24px;
+    line-height:1.5;
+    color:#f0e2c4;
+    text-align:center;
+
+}
+
+p.route-ending{
+
+    max-width:760px;
+    margin:45px auto 0;
+    font-size:22px;
+    line-height:1.6;
+    color:var(--accent);
+    text-align:center;
+
+}
+
+@media (max-width:600px){
+
+    p.route-highlight{
+        padding:22px 20px;
+        font-size:20px;
+    }
+
+    p.route-ending{
+        font-size:19px;
+    }
+
+}
+
+/* ==========================
+   ROUTE QUOTE
+========================== */
+
+.route-quote{
+
+    max-width:760px;
+    margin:50px auto 0;
+    padding:32px 36px;
+    background:rgba(255,255,255,.05);
+    border-left:4px solid var(--accent);
+    border-radius:14px;
+
+}
+
+.route-quote p{
+
+    margin:0;
+    font-size:22px;
+    line-height:1.6;
+    font-style:italic;
+    color:#e8dcc2;
+    text-align:center;
+
+}
+
+@media (max-width:600px){
+
+    .route-quote{
+        padding:24px 20px;
+    }
+
+    .route-quote p{
+        font-size:19px;
+    }
+
+}
