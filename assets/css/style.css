@@ -1811,3 +1811,109 @@ p.route-ending{
     }
 
 }
+/* ==========================
+   MOBILE FIX 2026
+========================== */
+
+html,
+body{
+    overflow-x:hidden;
+}
+
+@media (max-width:900px){
+
+    /* шапка: прячем текст логотипа и кнопку,
+       вместо этого показываем навигацию */
+
+    .logo span{
+        display:none;
+    }
+
+    .logo img{
+        width:42px;
+        height:42px;
+    }
+
+    .header .container > .button{
+        display:none;
+    }
+
+    .nav{
+        display:flex;
+        gap:16px;
+        font-size:13px;
+    }
+
+    /* первый экран */
+
+    .hero{
+        background-attachment:scroll;
+        min-height:auto;
+        padding-top:110px;
+        padding-bottom:60px;
+    }
+
+    .hero-content{
+        transform:none;
+    }
+
+    .hero p{
+        font-size:18px;
+    }
+
+    .hero-info-item strong,
+    .hero-info-item small{
+        white-space:normal;
+    }
+
+    /* заголовки */
+
+    .section h2{
+        font-size:30px;
+    }
+
+    .route-hero{
+        height:auto;
+        min-height:60vh;
+    }
+
+    .route-hero-content h1{
+        font-size:36px;
+    }
+
+    .route-story h2{
+        font-size:28px;
+    }
+
+    .route-story p{
+        font-size:18px;
+    }
+
+    /* карточки дистанций */
+
+    .route-content h3{
+        white-space:normal;
+    }
+
+    .register h2{
+        font-size:32px;
+    }
+
+}
+
+@media (max-width:600px){
+
+    .hero h1{
+        font-size:42px;
+    }
+
+    .route-hero-content h1{
+        font-size:30px;
+    }
+
+    .nav{
+        gap:12px;
+        font-size:12px;
+    }
+
+}
