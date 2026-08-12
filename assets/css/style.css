@@ -1917,3 +1917,36 @@ body{
     }
 
 }
+/* ==========================
+   ABOUT MOBILE
+========================== */
+
+@media (max-width:900px){
+
+    .about{
+        grid-template-columns:1fr;
+        gap:30px;
+    }
+
+    .about-image{
+        min-height:0;
+        height:240px;
+        order:-1;
+    }
+
+    .about-content h2{
+        margin:0 0 18px;
+        font-size:30px;
+    }
+
+    .about-content p{
+        margin-bottom:24px;
+        font-size:17px;
+    }
+
+    .about-list li{
+        padding:12px 0;
+        font-size:17px;
+    }
+
+}
