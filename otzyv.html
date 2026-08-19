@@ -248,36 +248,17 @@
             font-weight:300;
         }
 
-        #thanks textarea{
-            margin-top:18px;
-            min-height:180px;
-            font-size:13px;
-            font-weight:400;
-            font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-        }
-
-        #thanks .copy-btn{
-            margin-top:12px;
-            padding:10px 20px;
-            border-radius:999px;
-            border:1px solid rgba(255,255,255,.14);
-            background:transparent;
-            color:var(--text);
-            cursor:pointer;
-            font-weight:500;
-            font-size:13px;
-        }
-
-        #thanks .copy-btn:hover{
-            border-color:var(--accent);
-            color:var(--accent);
-        }
-
-        #thanks .note{
-            color:#8a8a8a;
-            font-weight:300;
-            font-size:13px;
-            margin-top:16px;
+        #formError{
+            display:none;
+            max-width:680px;
+            margin:0 auto 24px;
+            background:rgba(217,90,65,.12);
+            border:1px solid rgba(217,90,65,.4);
+            border-radius:14px;
+            padding:16px 20px;
+            color:#f0c9c0;
+            font-size:14px;
+            text-align:center;
         }
 
         @media (max-width:600px){
@@ -346,7 +327,12 @@
 
         <div class="container">
 
-            <form id="feedbackForm" class="feedback-card">
+            <div id="formError">Не получилось отправить отзыв. Попробуйте ещё раз чуть позже или напишите нам напрямую на <strong>grinev970@gmail.com</strong>.</div>
+
+            <form id="feedbackForm" class="feedback-card" action="https://formspree.io/f/xaewaolj" method="POST">
+
+                <input type="text" name="_gotcha" style="display:none">
+                <input type="hidden" name="_subject" value="Отзыв о Dirty Duck Trail">
 
                 <div class="field">
                     <label class="q" for="name">Имя <span class="opt">(необязательно)</span></label>
@@ -488,17 +474,13 @@
                 </div>
 
                 <button type="submit" class="submit">Отправить отзыв</button>
-                <p class="hint">При отправке откроется ваш почтовый клиент с уже заполненным письмом — останется только нажать «Отправить».</p>
+                <p class="hint">Отзыв придёт напрямую организаторам — ничего дополнительно нажимать не нужно.</p>
 
             </form>
 
             <div id="thanks">
                 <h2>Спасибо за отзыв! 🦆</h2>
-                <p>Мы открыли черновик письма в вашей почте — просто нажмите «Отправить», чтобы он дошёл до организаторов.</p>
-                <p class="note">Если почтовый клиент не открылся, скопируйте текст ниже и отправьте на <strong id="orgEmail"></strong>:</p>
-                <textarea id="summaryText" readonly></textarea>
-                <br>
-                <button class="copy-btn" id="copyBtn">Скопировать текст</button>
+                <p>Мы получили ваш отзыв и обязательно его прочитаем — он поможет сделать следующий Dirty Duck Trail ещё лучше.</p>
             </div>
 
         </div>
@@ -529,72 +511,47 @@
 <script src="assets/js/script.js"></script>
 
 <script>
-    const RECIPIENT = "grinev970@gmail.com";
-    document.getElementById('orgEmail').textContent = RECIPIENT;
-
     const distanceOther = document.getElementById('distanceOther');
     document.getElementById('distanceRow').addEventListener('change', function(e){
         distanceOther.style.display = (e.target.value === 'other') ? 'block' : 'none';
         if(e.target.value === 'other'){ distanceOther.focus(); }
     });
 
-    function labelFor(scaleValue){
-        const map = {"1":"1 — плохо","2":"2","3":"3 — средне","4":"4","5":"5 — отлично"};
-        return map[scaleValue] || scaleValue;
-    }
+    const form = document.getElementById('feedbackForm');
+    const errorBox = document.getElementById('formError');
 
-    document.getElementById('feedbackForm').addEventListener('submit', function(e){
+    form.addEventListener('submit', async function(e){
         e.preventDefault();
-        const form = e.target;
-        const data = new FormData(form);
+        errorBox.style.display = 'none';
 
-        let distance = data.get('distance');
-        if(distance === 'other'){
-            distance = distanceOther.value.trim() || 'не указано';
+        const submitBtn = form.querySelector('button.submit');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправляем...';
+
+        const data = new FormData(form);
+        if(data.get('distance') === 'other'){
+            data.set('distance', distanceOther.value.trim() || 'не указано');
         }
 
-        const lines = [
-            "Новый отзыв участника Dirty Duck Trail",
-            "",
-            "Имя: " + (data.get('name') || '—'),
-            "Стартовый номер: " + (data.get('bib') || '—'),
-            "Контакт: " + (data.get('contact') || '—'),
-            "Дистанция: " + (distance || '—'),
-            "Первый раз на забеге: " + (data.get('firstTime') || '—'),
-            "",
-            "Общая оценка (1-5): " + (data.get('overall') ? labelFor(data.get('overall')) : '—'),
-            "Организация и логистика (1-5): " + (data.get('logistics') ? labelFor(data.get('logistics')) : '—'),
-            "Разметка трассы (1-5): " + (data.get('marking') ? labelFor(data.get('marking')) : '—'),
-            "Сложность трассы (1-5, 5=слишком сложно): " + (data.get('difficulty') || '—'),
-            "Сложность стоит: " + (data.get('difficultyChange') || '—'),
-            "Питание и вода (1-5): " + (data.get('fuel') ? labelFor(data.get('fuel')) : '—'),
-            "Готовность рекомендовать (0-10): " + (data.get('nps') || '—'),
-            "Участие в следующем забеге: " + (data.get('next') || '—'),
-            "",
-            "Что понравилось больше всего:",
-            (data.get('best') || '—'),
-            "",
-            "Что стоит улучшить:",
-            (data.get('improve') || '—')
-        ];
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            });
 
-        const summary = lines.join('\n');
-        document.getElementById('summaryText').value = summary;
-
-        const subject = "Отзыв о Dirty Duck Trail — " + distance;
-        const mailto = "mailto:" + RECIPIENT + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(summary);
-
-        form.style.display = 'none';
-        document.getElementById('thanks').style.display = 'block';
-        window.location.href = mailto;
-    });
-
-    document.getElementById('copyBtn').addEventListener('click', function(){
-        const ta = document.getElementById('summaryText');
-        ta.select();
-        document.execCommand('copy');
-        this.textContent = 'Скопировано ✓';
-        setTimeout(() => { this.textContent = 'Скопировать текст'; }, 2000);
+            if(response.ok){
+                form.style.display = 'none';
+                document.getElementById('thanks').style.display = 'block';
+            } else {
+                throw new Error('Formspree responded with an error');
+            }
+        } catch (err) {
+            errorBox.style.display = 'block';
+            errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Отправить отзыв';
+        }
     });
 </script>
 
