@@ -21,6 +21,10 @@ const eventDate = new Date(2026, 7, 15, 22, 30, 0).getTime();
 
 function updateCountdown() {
 
+    if (!document.getElementById("days")) {
+        return;
+    }
+
     const now = new Date().getTime();
 
     const distance = eventDate - now;
