@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Обратная связь участников | Dirty Duck Trail</title>
+
+    <meta name="description" content="Оставьте отзыв о забеге Dirty Duck Trail — помогите нам сделать следующий трейл ещё лучше.">
+    <meta name="robots" content="noindex">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <style>
+
+        .feedback-hero{
+            padding:180px 0 60px;
+            text-align:center;
+            background:var(--bg2);
+        }
+
+        .feedback-hero h1{
+            font-size:46px;
+            margin:14px 0;
+        }
+
+        .feedback-hero p{
+            color:var(--gray);
+            font-size:18px;
+            font-weight:300;
+            max-width:560px;
+            margin:0 auto;
+        }
+
+        .feedback-form-section{
+            padding:70px 0 120px;
+        }
+
+        .feedback-card{
+            max-width:680px;
+            margin:0 auto;
+            background:#1d1d1d;
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:20px;
+            padding:40px;
+        }
+
+        .field{
+            margin-bottom:30px;
+        }
+
+        .field:last-of-type{
+            margin-bottom:0;
+        }
+
+        label.q{
+            display:block;
+            font-weight:500;
+            font-size:16px;
+            margin-bottom:10px;
+            color:var(--text);
+        }
+
+        label.q .opt{
+            font-weight:300;
+            color:var(--gray);
+            font-size:13px;
+        }
+
+        input[type="text"], select, textarea{
+            width:100%;
+            padding:13px 14px;
+            border:1px solid rgba(255,255,255,.12);
+            border-radius:10px;
+            font-size:15px;
+            font-weight:300;
+            font-family:inherit;
+            background:#141414;
+            color:var(--text);
+        }
+
+        input[type="text"]::placeholder, textarea::placeholder{
+            color:#8a8a8a;
+        }
+
+        input[type="text"]:focus, textarea:focus{
+            outline:none;
+            border-color:var(--accent);
+            box-shadow:0 0 0 3px rgba(217,164,65,.18);
+        }
+
+        textarea{
+            resize:vertical;
+            min-height:90px;
+        }
+
+        .scale{
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+        }
+
+        .scale input{
+            display:none;
+        }
+
+        .scale label{
+            flex:1;
+            min-width:44px;
+            text-align:center;
+            padding:11px 6px;
+            border:1px solid rgba(255,255,255,.14);
+            border-radius:10px;
+            cursor:pointer;
+            font-size:14px;
+            font-weight:500;
+            color:var(--gray);
+            transition:.15s;
+            user-select:none;
+        }
+
+        .scale label:hover{
+            border-color:var(--accent);
+            color:var(--accent);
+        }
+
+        .scale input:checked + label{
+            background:var(--accent);
+            border-color:var(--accent);
+            color:#111;
+        }
+
+        .scale-caption{
+            display:flex;
+            justify-content:space-between;
+            font-size:12px;
+            font-weight:300;
+            color:#8a8a8a;
+            margin-top:6px;
+        }
+
+        .radio-row{
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+        }
+
+        .radio-row input{
+            display:none;
+        }
+
+        .radio-row label{
+            padding:10px 18px;
+            border:1px solid rgba(255,255,255,.14);
+            border-radius:999px;
+            cursor:pointer;
+            font-size:14px;
+            color:var(--gray);
+            font-weight:500;
+            transition:.15s;
+        }
+
+        .radio-row label:hover{
+            border-color:var(--accent);
+            color:var(--accent);
+        }
+
+        .radio-row input:checked + label{
+            background:var(--accent);
+            border-color:var(--accent);
+            color:#111;
+        }
+
+        .nps{
+            display:grid;
+            grid-template-columns:repeat(11,1fr);
+            gap:5px;
+        }
+
+        .nps input{
+            display:none;
+        }
+
+        .nps label{
+            text-align:center;
+            padding:9px 0;
+            border:1px solid rgba(255,255,255,.14);
+            border-radius:8px;
+            cursor:pointer;
+            font-size:13px;
+            font-weight:500;
+            color:var(--gray);
+        }
+
+        .nps input:checked + label{
+            background:var(--accent);
+            border-color:var(--accent);
+            color:#111;
+        }
+
+        button.submit{
+            width:100%;
+            padding:16px;
+            margin-top:6px;
+            background:var(--accent);
+            color:#111;
+            border:none;
+            border-radius:999px;
+            font-size:16px;
+            font-weight:600;
+            cursor:pointer;
+            transition:all .35s ease;
+        }
+
+        button.submit:hover{
+            transform:translateY(-4px);
+            box-shadow:0 18px 45px rgba(217,164,65,.45);
+        }
+
+        .hint{
+            font-size:12px;
+            font-weight:300;
+            color:#8a8a8a;
+            text-align:center;
+            margin-top:14px;
+        }
+
+        #thanks{
+            display:none;
+            max-width:680px;
+            margin:0 auto;
+            background:#1d1d1d;
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:20px;
+            padding:44px 40px;
+            text-align:center;
+        }
+
+        #thanks h2{
+            margin-top:0;
+            font-size:32px;
+        }
+
+        #thanks p{
+            color:var(--gray);
+            font-weight:300;
+        }
+
+        #thanks textarea{
+            margin-top:18px;
+            min-height:180px;
+            font-size:13px;
+            font-weight:400;
+            font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+        }
+
+        #thanks .copy-btn{
+            margin-top:12px;
+            padding:10px 20px;
+            border-radius:999px;
+            border:1px solid rgba(255,255,255,.14);
+            background:transparent;
+            color:var(--text);
+            cursor:pointer;
+            font-weight:500;
+            font-size:13px;
+        }
+
+        #thanks .copy-btn:hover{
+            border-color:var(--accent);
+            color:var(--accent);
+        }
+
+        #thanks .note{
+            color:#8a8a8a;
+            font-weight:300;
+            font-size:13px;
+            margin-top:16px;
+        }
+
+        @media (max-width:600px){
+            .nps{grid-template-columns:repeat(6,1fr);}
+            .feedback-card, #thanks{padding:26px;}
+            .feedback-hero{padding:150px 0 50px;}
+            .feedback-hero h1{font-size:32px;}
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div class="container">
+
+        <a href="index.html" class="logo">
+
+            <img src="assets/img/logo/logo.png" alt="Dirty Duck Trail">
+
+            <span>DIRTY DUCK</span>
+
+        </a>
+
+        <nav class="nav">
+
+            <a href="index.html">Главная</a>
+            <a href="index.html#routes">Дистанции</a>
+            <a href="gallery.html">Галерея</a>
+
+        </nav>
+
+        <a href="index.html#register" class="button">
+
+            Регистрация
+
+        </a>
+
+    </div>
+
+</header>
+
+<main>
+
+    <section class="feedback-hero">
+
+        <div class="container">
+
+            <span class="hero-label">ОБРАТНАЯ СВЯЗЬ</span>
+
+            <h1>Расскажите, как прошёл забег</h1>
+
+            <p>
+                Ваше мнение поможет нам сделать следующий Dirty Duck Trail ещё лучше.
+                Заполнение займёт 2–3 минуты, форма анонимна — контакты указывать не обязательно.
+            </p>
+
+        </div>
+
+    </section>
+
+    <section class="feedback-form-section">
+
+        <div class="container">
+
+            <form id="feedbackForm" class="feedback-card">
+
+                <div class="field">
+                    <label class="q" for="name">Имя <span class="opt">(необязательно)</span></label>
+                    <input type="text" id="name" name="name" placeholder="Как к вам обращаться">
+                </div>
+
+                <div class="field">
+                    <label class="q" for="bib">Стартовый номер <span class="opt">(необязательно)</span></label>
+                    <input type="text" id="bib" name="bib" placeholder="Например, 1042" inputmode="numeric">
+                </div>
+
+                <div class="field">
+                    <label class="q" for="contact">Email или Telegram <span class="opt">(необязательно, если хотите получить ответ)</span></label>
+                    <input type="text" id="contact" name="contact" placeholder="you@example.com или @username">
+                </div>
+
+                <div class="field">
+                    <label class="q">На какой дистанции вы бежали? <span class="opt">*</span></label>
+                    <div class="radio-row" id="distanceRow">
+                        <input type="radio" id="d7" name="distance" value="7 км (Гадкий утёнок)" required><label for="d7">7 км</label>
+                        <input type="radio" id="d14" name="distance" value="14 км (Серая Шейка)"><label for="d14">14 км</label>
+                        <input type="radio" id="d21" name="distance" value="21 км (Храбрый утёнок)"><label for="d21">21 км</label>
+                        <input type="radio" id="dOther" name="distance" value="other"><label for="dOther">Другое</label>
+                    </div>
+                    <input type="text" id="distanceOther" placeholder="Укажите дистанцию" style="margin-top:10px;display:none;">
+                </div>
+
+                <div class="field">
+                    <label class="q">Вы впервые участвовали в Dirty Duck Trail?</label>
+                    <div class="radio-row">
+                        <input type="radio" id="firstYes" name="firstTime" value="Да, впервые"><label for="firstYes">Да, впервые</label>
+                        <input type="radio" id="firstNo" name="firstTime" value="Уже участвовал(а) раньше"><label for="firstNo">Уже участвовал(а) раньше</label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="q">Общая оценка забега <span class="opt">*</span></label>
+                    <div class="scale">
+                        <input type="radio" id="o1" name="overall" value="1" required><label for="o1">1</label>
+                        <input type="radio" id="o2" name="overall" value="2"><label for="o2">2</label>
+                        <input type="radio" id="o3" name="overall" value="3"><label for="o3">3</label>
+                        <input type="radio" id="o4" name="overall" value="4"><label for="o4">4</label>
+                        <input type="radio" id="o5" name="overall" value="5"><label for="o5">5</label>
+                    </div>
+                    <div class="scale-caption"><span>Плохо</span><span>Отлично</span></div>
+                </div>
+
+                <div class="field">
+                    <label class="q">Организация и логистика <span class="opt">(регистрация, старт/финиш, хранение вещей)</span></label>
+                    <div class="scale">
+                        <input type="radio" id="l1" name="logistics" value="1"><label for="l1">1</label>
+                        <input type="radio" id="l2" name="logistics" value="2"><label for="l2">2</label>
+                        <input type="radio" id="l3" name="logistics" value="3"><label for="l3">3</label>
+                        <input type="radio" id="l4" name="logistics" value="4"><label for="l4">4</label>
+                        <input type="radio" id="l5" name="logistics" value="5"><label for="l5">5</label>
+                    </div>
+                    <div class="scale-caption"><span>Плохо</span><span>Отлично</span></div>
+                </div>
+
+                <div class="field">
+                    <label class="q">Разметка трассы <span class="opt">(указатели, навигация, дистанция была понятна)</span></label>
+                    <div class="scale">
+                        <input type="radio" id="m1" name="marking" value="1"><label for="m1">1</label>
+                        <input type="radio" id="m2" name="marking" value="2"><label for="m2">2</label>
+                        <input type="radio" id="m3" name="marking" value="3"><label for="m3">3</label>
+                        <input type="radio" id="m4" name="marking" value="4"><label for="m4">4</label>
+                        <input type="radio" id="m5" name="marking" value="5"><label for="m5">5</label>
+                    </div>
+                    <div class="scale-caption"><span>Плохо</span><span>Отлично</span></div>
+                </div>
+
+                <div class="field">
+                    <label class="q">Сложность трассы <span class="opt">(рельеф, покрытие, грязь)</span></label>
+                    <div class="scale">
+                        <input type="radio" id="c1" name="difficulty" value="1"><label for="c1">1</label>
+                        <input type="radio" id="c2" name="difficulty" value="2"><label for="c2">2</label>
+                        <input type="radio" id="c3" name="difficulty" value="3"><label for="c3">3</label>
+                        <input type="radio" id="c4" name="difficulty" value="4"><label for="c4">4</label>
+                        <input type="radio" id="c5" name="difficulty" value="5"><label for="c5">5</label>
+                    </div>
+                    <div class="scale-caption"><span>Слишком легко</span><span>Слишком сложно</span></div>
+                </div>
+
+                <div class="field">
+                    <label class="q">Сложность трассы стоит...</label>
+                    <div class="radio-row">
+                        <input type="radio" id="diffUp" name="difficultyChange" value="Увеличить"><label for="diffUp">Увеличить</label>
+                        <input type="radio" id="diffSame" name="difficultyChange" value="Оставить как есть"><label for="diffSame">Оставить как есть</label>
+                        <input type="radio" id="diffDown" name="difficultyChange" value="Уменьшить"><label for="diffDown">Уменьшить</label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="q">Питание и вода на дистанции</label>
+                    <div class="scale">
+                        <input type="radio" id="f1" name="fuel" value="1"><label for="f1">1</label>
+                        <input type="radio" id="f2" name="fuel" value="2"><label for="f2">2</label>
+                        <input type="radio" id="f3" name="fuel" value="3"><label for="f3">3</label>
+                        <input type="radio" id="f4" name="fuel" value="4"><label for="f4">4</label>
+                        <input type="radio" id="f5" name="fuel" value="5"><label for="f5">5</label>
+                    </div>
+                    <div class="scale-caption"><span>Плохо</span><span>Отлично</span></div>
+                </div>
+
+                <div class="field">
+                    <label class="q" for="best">Что понравилось больше всего?</label>
+                    <textarea id="best" name="best" placeholder="Атмосфера, волонтёры, трасса, грязь..."></textarea>
+                </div>
+
+                <div class="field">
+                    <label class="q" for="improve">Что стоит улучшить?</label>
+                    <textarea id="improve" name="improve" placeholder="Ваши идеи и замечания"></textarea>
+                </div>
+
+                <div class="field">
+                    <label class="q">Насколько вероятно, что вы порекомендуете Dirty Duck Trail друзьям? <span class="opt">(0 — точно нет, 10 — точно да)</span></label>
+                    <div class="nps">
+                        <input type="radio" id="n0" name="nps" value="0"><label for="n0">0</label>
+                        <input type="radio" id="n1" name="nps" value="1"><label for="n1">1</label>
+                        <input type="radio" id="n2" name="nps" value="2"><label for="n2">2</label>
+                        <input type="radio" id="n3" name="nps" value="3"><label for="n3">3</label>
+                        <input type="radio" id="n4" name="nps" value="4"><label for="n4">4</label>
+                        <input type="radio" id="n5" name="nps" value="5"><label for="n5">5</label>
+                        <input type="radio" id="n6" name="nps" value="6"><label for="n6">6</label>
+                        <input type="radio" id="n7" name="nps" value="7"><label for="n7">7</label>
+                        <input type="radio" id="n8" name="nps" value="8"><label for="n8">8</label>
+                        <input type="radio" id="n9" name="nps" value="9"><label for="n9">9</label>
+                        <input type="radio" id="n10" name="nps" value="10"><label for="n10">10</label>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="q">Планируете участвовать в следующем Dirty Duck Trail?</label>
+                    <div class="radio-row">
+                        <input type="radio" id="nextYes" name="next" value="Да"><label for="nextYes">Да</label>
+                        <input type="radio" id="nextMaybe" name="next" value="Возможно"><label for="nextMaybe">Возможно</label>
+                        <input type="radio" id="nextNo" name="next" value="Нет"><label for="nextNo">Нет</label>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit">Отправить отзыв</button>
+                <p class="hint">При отправке откроется ваш почтовый клиент с уже заполненным письмом — останется только нажать «Отправить».</p>
+
+            </form>
+
+            <div id="thanks">
+                <h2>Спасибо за отзыв! 🦆</h2>
+                <p>Мы открыли черновик письма в вашей почте — просто нажмите «Отправить», чтобы он дошёл до организаторов.</p>
+                <p class="note">Если почтовый клиент не открылся, скопируйте текст ниже и отправьте на <strong id="orgEmail"></strong>:</p>
+                <textarea id="summaryText" readonly></textarea>
+                <br>
+                <button class="copy-btn" id="copyBtn">Скопировать текст</button>
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer class="footer">
+    <div class="container">
+
+        <p>© Dirty Duck Trail 2026</p>
+
+        <div class="footer-social">
+            <a href="https://t.me/dirtyducktrail"
+               target="_blank"
+               rel="noopener noreferrer">
+
+                <img src="assets/img/icons/telegram.svg"
+                     alt="Telegram">
+
+            </a>
+        </div>
+
+    </div>
+</footer>
+
+<script src="assets/js/script.js"></script>
+
+<script>
+    const RECIPIENT = "grinev970@gmail.com";
+    document.getElementById('orgEmail').textContent = RECIPIENT;
+
+    const distanceOther = document.getElementById('distanceOther');
+    document.getElementById('distanceRow').addEventListener('change', function(e){
+        distanceOther.style.display = (e.target.value === 'other') ? 'block' : 'none';
+        if(e.target.value === 'other'){ distanceOther.focus(); }
+    });
+
+    function labelFor(scaleValue){
+        const map = {"1":"1 — плохо","2":"2","3":"3 — средне","4":"4","5":"5 — отлично"};
+        return map[scaleValue] || scaleValue;
+    }
+
+    document.getElementById('feedbackForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+
+        let distance = data.get('distance');
+        if(distance === 'other'){
+            distance = distanceOther.value.trim() || 'не указано';
+        }
+
+        const lines = [
+            "Новый отзыв участника Dirty Duck Trail",
+            "",
+            "Имя: " + (data.get('name') || '—'),
+            "Стартовый номер: " + (data.get('bib') || '—'),
+            "Контакт: " + (data.get('contact') || '—'),
+            "Дистанция: " + (distance || '—'),
+            "Первый раз на забеге: " + (data.get('firstTime') || '—'),
+            "",
+            "Общая оценка (1-5): " + (data.get('overall') ? labelFor(data.get('overall')) : '—'),
+            "Организация и логистика (1-5): " + (data.get('logistics') ? labelFor(data.get('logistics')) : '—'),
+            "Разметка трассы (1-5): " + (data.get('marking') ? labelFor(data.get('marking')) : '—'),
+            "Сложность трассы (1-5, 5=слишком сложно): " + (data.get('difficulty') || '—'),
+            "Сложность стоит: " + (data.get('difficultyChange') || '—'),
+            "Питание и вода (1-5): " + (data.get('fuel') ? labelFor(data.get('fuel')) : '—'),
+            "Готовность рекомендовать (0-10): " + (data.get('nps') || '—'),
+            "Участие в следующем забеге: " + (data.get('next') || '—'),
+            "",
+            "Что понравилось больше всего:",
+            (data.get('best') || '—'),
+            "",
+            "Что стоит улучшить:",
+            (data.get('improve') || '—')
+        ];
+
+        const summary = lines.join('\n');
+        document.getElementById('summaryText').value = summary;
+
+        const subject = "Отзыв о Dirty Duck Trail — " + distance;
+        const mailto = "mailto:" + RECIPIENT + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(summary);
+
+        form.style.display = 'none';
+        document.getElementById('thanks').style.display = 'block';
+        window.location.href = mailto;
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', function(){
+        const ta = document.getElementById('summaryText');
+        ta.select();
+        document.execCommand('copy');
+        this.textContent = 'Скопировано ✓';
+        setTimeout(() => { this.textContent = 'Скопировать текст'; }, 2000);
+    });
+</script>
+
+</body>
+
+</html>
